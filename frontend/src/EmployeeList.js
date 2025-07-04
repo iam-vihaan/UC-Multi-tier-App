@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function EmployeeList() {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    fetch('/api/employees')
-      .then(res => res.json())
-      .then(data => setEmployees(data));
+    fetch(`${API_URL}/employees`)
+      .then(response => response.json())
+      .then(data => setEmployees(data))
+      .catch(error => console.error('Error fetching employees:', error));
   }, []);
 
   return (
     <div>
-      <h2>Employees</h2>
+      <h2>Employee Directory</h2>
       <ul>
         {employees.map(emp => (
-          <li key={emp.id}>
-            {emp.name} - {emp.department} - {emp.email}
-          </li>
+          <li key={emp.id}>{emp.name} - {emp.department}</li>
         ))}
       </ul>
     </div>
