@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -6,9 +7,8 @@ function EmployeeList() {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    fetch(`${API_URL}/employees`)
-      .then(response => response.json())
-      .then(data => setEmployees(data))
+    axios.get(`${API_URL}/employees`)
+      .then(response => setEmployees(response.data))
       .catch(error => console.error('Error fetching employees:', error));
   }, []);
 
