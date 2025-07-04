@@ -17,7 +17,7 @@ spec:
         eks.amazonaws.com/nodegroup: ec2-node-group
       containers:
       - name: backend
-        image: <your-backend-image>
+        image: <your-backend-image>  # Replace with actual image URI
         ports:
         - containerPort: 5000
         env:
@@ -26,3 +26,10 @@ spec:
             secretKeyRef:
               name: db-secret
               key: DATABASE_URL
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "500m"
+            memory: "1024Mi"
