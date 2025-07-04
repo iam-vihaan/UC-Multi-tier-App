@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function EmployeeForm() {
   const [formData, setFormData] = useState({
     name: '',
     department: '',
-    email: ''
+    email: '',
+    phone: ''
   });
 
   const handleChange = e => {
@@ -13,22 +16,24 @@ function EmployeeForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch('/api/employees', {
+    fetch(`${API_URL}/employees`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
-    }).then(() => {
-      alert('Employee updated!');
-    });
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Employee updated:', data);
+      })
+      .catch(error => console.error('Error updating employee:', error));
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Update Your Info</h2>
-      <input name="name" placeholder="Name" onChange={handleChange} />
-      <input name="department" placeholder="Department" onChange={handleChange} />
-      <input name="email" placeholder="Email" onChange={handleChange} />
-      <button type="submit">Update</button>
+      <input name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
+           <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
+      <input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" required />
+      <button type="submit">Update Info</button>
     </form>
   );
 }
